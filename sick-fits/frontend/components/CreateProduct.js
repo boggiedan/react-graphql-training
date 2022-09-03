@@ -54,7 +54,7 @@ const CreateProduct = () => {
       <ErrorMessage error={error} />
       <fieldset disabled={loading} aria-busy={loading}>
         <label htmlFor="image">
-          Name
+          Image
           <input type="file" id="image" name="image" onChange={handleChange} />
         </label>
         <label htmlFor="name">

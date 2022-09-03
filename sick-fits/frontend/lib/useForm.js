@@ -1,7 +1,12 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const useForm = (initial = {}) => {
   const [inputs, setInputs] = useState(initial);
+  const initialValues = Object.values(initial).join('');
+
+  useEffect(() => {
+    setInputs(initial);
+  }, [initialValues]);
 
   const handleChange = useCallback((e) => {
     let { value, name, type } = e.target;
