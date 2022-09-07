@@ -4,6 +4,7 @@ import Title from './styles/Title';
 import PriceTag from './styles/PriceTag';
 import formatMoney from '../lib/formatMoney';
 import DeleteProductAction from './DeleteProductAction';
+import AddToCart from './AddToCart';
 
 const Product = ({ id, name, photo, price, description }) => (
   <Item>
@@ -24,6 +25,7 @@ const Product = ({ id, name, photo, price, description }) => (
       >
         Edit ✏️
       </Link>
+      <AddToCart id={id} />
       <DeleteProductAction id={id}>Delete</DeleteProductAction>
     </div>
   </Item>

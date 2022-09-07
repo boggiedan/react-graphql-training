@@ -9,7 +9,12 @@ import {
 import { User } from './schemas/User';
 import { Product } from './schemas/Product';
 import { ProductImage } from './schemas/ProductImage';
+import { CartItem } from './schemas/CartItem';
+import { OrderItem } from './schemas/OrderItem';
+import { Order } from './schemas/Order';
 import { insertSeedData } from './seed-data';
+import { sendPasswordResetEmail } from './lib/mail';
+import { extendGraphqlSchema } from './mutations';
 
 const databaseURL = process.env.DATABASE_URL || 'mongodb://localhost/keystone';
 const sessionConfig = {
@@ -23,6 +28,13 @@ const { withAuth } = createAuth({
   secretField: 'password',
   initFirstItem: {
     fields: ['name', 'email', 'password'],
+  },
+  passwordResetLink: {
+    async sendToken(args) {
+      console.log('====== SEND TOKEN ====== ', args);
+      const { identity, token } = args;
+      await sendPasswordResetEmail(token, identity);
+    },
   },
 });
 
@@ -49,7 +61,11 @@ export default withAuth(
       User,
       Product,
       ProductImage,
+      CartItem,
+      OrderItem,
+      Order,
     }),
+    extendGraphqlSchema,
     ui: {
       // Show the UI only for people who pass this test
       isAccessAllowed: ({ session }) => !!session?.data,
